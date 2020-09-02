@@ -118,6 +118,7 @@ const Project = (() => {
   };
 
   const loadStoredProjects = () => {
+    Display.clearProjectsList();
     if (projectsList.length <= 0) {
       const project = new ProjectObject('Sample Project');
       project.todos = [{

@@ -51,7 +51,7 @@ const Display = (() => {
     itemName.setAttribute('placeholder', 'Project Name');
     itemName.setAttribute('name', 'projectName');
     itemName.setAttribute('minlength', '2');
-    itemName.setAttribute('maxlength', '12');
+    itemName.setAttribute('maxlength', '15');
     itemName.required = true;
     itemName.classList.add('form-control', 'mx-3', 'w-75');
     const itemBtn = document.createElement('button');
@@ -61,6 +61,9 @@ const Display = (() => {
     itemForm.appendChild(itemBtn);
     itemLI.appendChild(itemForm);
     sideBarUL.appendChild(itemLI);
+    const projectsList = document.createElement('div');
+    projectsList.setAttribute('id', 'project-items-list');
+    sideBarUL.appendChild(projectsList);
 
 
     sidebarMenu.appendChild(sideBarDiv);
@@ -320,8 +323,13 @@ const Display = (() => {
     container.append(containerDiv);
   };
 
+  const clearProjectsList = () => {
+    const ParentUL = document.querySelector('#project-items-list');
+    ParentUL.innerHTML = null;
+  };
+
   const insertProject = (title, id) => {
-    const ParentUL = document.querySelector('#projectListing');
+    const ParentUL = document.querySelector('#project-items-list');
     const itemLI = document.createElement('li');
     itemLI.classList.add('nav-item', 'text-left', 'project-link');
     itemLI.setAttribute('id', id);
@@ -376,6 +384,7 @@ const Display = (() => {
     closeTodoForm,
     clearTodosTable,
     showEditTodoForm,
+    clearProjectsList,
   };
 })();
 

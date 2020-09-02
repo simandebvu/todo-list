@@ -15,7 +15,6 @@ formProject.onsubmit = (e) => {
   const {
     projectName,
   } = e.target.elements;
-  Display.insertProject(projectName.value);
   Project.addProject(projectName.value);
   e.target.reset();
 };
