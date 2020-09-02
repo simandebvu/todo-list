@@ -50,9 +50,15 @@ const Project = (() => {
       });
     });
     const btnsDelete = document.querySelectorAll('.btn-delete');
-    btnsDelete.forEach((project) => {
+    btnsDelete.forEach((project, idx) => {
       project.onclick = () => {
-        console.log(`delete ${Project.getCurrentProjectID()}`);
+        projectsList[currentProjectID].todos.splice(idx, 1);
+        localStorage.setItem('projects', JSON.stringify(projectsList));
+        const projectTodos = projectsList[currentProjectID];
+        Display.clearTodosTable();
+        projectTodos.todos.forEach((todo, idx) => {
+          Display.insertProjectTodos(idx, todo.title, todo.description, todo.date, todo.priority, 'No');
+        });
       };
     });
   };
