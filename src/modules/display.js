@@ -110,6 +110,9 @@ const Display = (() => {
     const tHeaderComplete = document.createElement('th');
     tHeaderComplete.textContent = 'Complete?';
     tRowHeader.appendChild(tHeaderComplete);
+    const tHeaderOptions = document.createElement('th');
+    tHeaderOptions.textContent = 'Options';
+    tRowHeader.appendChild(tHeaderOptions);
 
     tableHead.appendChild(tRowHeader);
     tableContainer.appendChild(tableHead);
@@ -121,10 +124,10 @@ const Display = (() => {
   };
 
 
-  const insertProjectTodos = (title, description, date, priority, complete) => {
+  const insertProjectTodos = (index, title, description, date, priority, complete) => {
     const ParentTable = document.querySelector('.todos-table');
     const tableRow = document.createElement('tr');
-
+    tableRow.setAttribute('id', index);
     const todoTitle = document.createElement('td');
     todoTitle.textContent = title;
     tableRow.appendChild(todoTitle);
@@ -144,6 +147,30 @@ const Display = (() => {
     const todoComplete = document.createElement('td');
     todoComplete.textContent = complete;
     tableRow.appendChild(todoComplete);
+
+
+    todoComplete.textContent = complete;
+    tableRow.appendChild(todoComplete);
+
+    const todoOptions = document.createElement('td');
+
+    const btnDone = document.createElement('button');
+    btnDone.classList.add('btn', 'btn-success', 'btn-done');
+    btnDone.textContent = 'DONE';
+
+    const btnEdit = document.createElement('button');
+    btnEdit.classList.add('btn', 'btn-warning', 'mx-2', 'btn-edit');
+    btnEdit.textContent = 'EDIT';
+
+    const btnDel = document.createElement('button');
+    btnDel.classList.add('btn', 'btn-danger', 'mx-2', 'btn-delete');
+    btnDel.textContent = 'DELETE';
+
+    todoOptions.appendChild(btnEdit);
+    todoOptions.appendChild(btnDone);
+    todoOptions.appendChild(btnDel);
+    tableRow.appendChild(todoOptions);
+
     ParentTable.appendChild(tableRow);
   };
 

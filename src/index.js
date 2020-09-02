@@ -7,7 +7,8 @@ import Project from './modules/Project';
 
 Display.initDisplay();
 
-
+Project.loadStoredProjects();
+Project.initProject();
 const formProject = document.querySelector('.add-project-form');
 formProject.onsubmit = (e) => {
   e.preventDefault();
@@ -34,4 +35,3 @@ form.onsubmit = (e) => {
   );
   e.target.reset();
 };
-Project.loadStoredProjects();

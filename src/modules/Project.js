@@ -7,13 +7,59 @@ const Project = (() => {
     ? JSON.parse(localStorage.getItem('projects'))
     : [];
 
+  const initButtonListeners = () => {
+    const btnsDone = document.querySelectorAll('.btn-done');
+    btnsDone.forEach((project) => {
+      project.onclick = () => {
+        console.log(`done ${Project.getCurrentProjectID()}`);
+      };
+    });
+    const btnsEdit = document.querySelectorAll('.btn-edit');
+    btnsEdit.forEach((project, idx) => {
+      project.addEventListener('click', (e) => {
+        const id = event.target.getAttribute('id');
+        console.log(idx);
+        console.log(projectsList[currentProjectID][idx]);
+
+        e.preventDefault();
+      });
+      // project.onclick = (e) => {
+      //   console.log(e.target.elements);
+      //   const id = e.target.getAttribute('id');
+      //   console.log(`edit ${Project.getCurrentProjectID()} id ${id}`);
+      // };
+    });
+    const btnsDelete = document.querySelectorAll('.btn-delete');
+    btnsDelete.forEach((project) => {
+      project.onclick = () => {
+        console.log(`delete ${Project.getCurrentProjectID()}`);
+      };
+    });
+  };
+
   const addTodo = (title, description, date, priority) => {
     const currentProject = projectsList[currentProjectID];
-    Display.insertProjectTodos(title, description, date, priority, 'No');
     currentProject.todos.push({
       title, date, description, priority,
     });
+    const todoID = currentProject.todos.length > 0 ? currentProject.todos.length - 1 : 0;
+    Display.insertProjectTodos(todoID, title, description, date, priority, 'No');
     localStorage.setItem('projects', JSON.stringify(Project.projectsList));
+    initButtonListeners();
+  };
+
+  const initProject = () => {
+    const projects = document.querySelectorAll('.project-link');
+    const projectTitle = document.querySelector('.projectTitle');
+    const demoProject = projects[0];
+    projectTitle.textContent = demoProject.textContent;
+    const projectTodos = projectsList[demoProject.id];
+    currentProjectID = demoProject.id;
+    Display.clearTodosTable();
+    projectTodos.todos.forEach((todo, idx) => {
+      Display.insertProjectTodos(idx, todo.title, todo.description, todo.date, todo.priority, 'No');
+    });
+    initButtonListeners();
   };
 
   const initProjectListeners = () => {
@@ -28,8 +74,9 @@ const Project = (() => {
         const projectTodos = projectsList[project.id];
         currentProjectID = project.id;
         Display.clearTodosTable();
-        projectTodos.todos.forEach((todo) => {
-          Display.insertProjectTodos(todo.title, todo.description, todo.date, todo.priority, 'No');
+        projectTodos.todos.forEach((todo, idx) => {
+          Display.insertProjectTodos(idx, todo.title, todo.description, todo.date, todo.priority, 'No');
+          initButtonListeners();
         });
       };
     });
@@ -60,8 +107,10 @@ const Project = (() => {
     initProjectListeners();
   };
 
+
   const getCurrentProjectID = () => currentProjectID;
   return {
+    initProject,
     addProject,
     loadStoredProjects,
     projectsList,
