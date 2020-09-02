@@ -17,17 +17,37 @@ const Project = (() => {
     const btnsEdit = document.querySelectorAll('.btn-edit');
     btnsEdit.forEach((project, idx) => {
       project.addEventListener('click', (e) => {
-        const id = event.target.getAttribute('id');
-        console.log(idx);
-        console.log(projectsList[currentProjectID][idx]);
-
+        Display.showEditTodoForm(projectsList[currentProjectID].todos[idx]);
+        const addTodoBtn = document.querySelector('#toDoOpenButton');
+        const mainForm = document.querySelector('#formToDo');
+        const submitBtn = document.querySelector('#idAddTodo');
+        const titleElement = document.querySelector('#formTitle');
+        const descriptionElement = document.querySelector('#formDescription');
+        addTodoBtn.onclick = () => {
+          addTodoBtn.textContent = 'Add Todo Item';
+          submitBtn.setAttribute('data-mode', 'add');
+          titleElement.textContent = null;
+          descriptionElement.textContent = null;
+        };
+        addTodoBtn.textContent = 'Editing Todo';
+        submitBtn.setAttribute('data-mode', 'edit');
+        mainForm.onsubmit = (e) => {
+          const {
+            title, description, date, priority,
+          } = e.target.elements;
+          const curTodo = projectsList[currentProjectID].todos[idx];
+          curTodo.title = title.value;
+          curTodo.description = description.value;
+          curTodo.priority = priority.value;
+          curTodo.date = date.value;
+          localStorage.setItem('projects', JSON.stringify(projectsList));
+          Display.closeTodoForm();
+          return {
+            title, description, date, priority,
+          };
+        };
         e.preventDefault();
       });
-      // project.onclick = (e) => {
-      //   console.log(e.target.elements);
-      //   const id = e.target.getAttribute('id');
-      //   console.log(`edit ${Project.getCurrentProjectID()} id ${id}`);
-      // };
     });
     const btnsDelete = document.querySelectorAll('.btn-delete');
     btnsDelete.forEach((project) => {
@@ -48,6 +68,22 @@ const Project = (() => {
     initButtonListeners();
   };
 
+  const sumbitTodo = (e) => {
+    Display.closeTodoForm();
+    const addBtn = document.querySelector('#idAddTodo');
+    const {
+      title, description, date, priority,
+    } = e.target.elements;
+    if (addBtn.dataset.mode === 'add') {
+      addTodo(
+        title.value,
+        description.value,
+        date.value,
+        priority.value,
+      );
+    }
+  };
+
   const initProject = () => {
     const projects = document.querySelectorAll('.project-link');
     const projectTitle = document.querySelector('.projectTitle');
@@ -63,7 +99,6 @@ const Project = (() => {
   };
 
   const initProjectListeners = () => {
-    const projectsList = JSON.parse(localStorage.getItem('projects'));
     const projects = document.querySelectorAll('.project-link');
     const projectTitle = document.querySelector('.projectTitle');
 
@@ -88,7 +123,7 @@ const Project = (() => {
       project.todos = [{
         title: 'Sample todo',
         description: 'Sample Description',
-        priority: 'high',
+        priority: 'High Priority',
         date: '2020-08-19',
       }];
       projectsList.push(project);
@@ -104,7 +139,7 @@ const Project = (() => {
     const project = new ProjectObject(value);
     projectsList.push(project);
     localStorage.setItem('projects', JSON.stringify(projectsList));
-    initProjectListeners();
+    loadStoredProjects();
   };
 
 
@@ -114,7 +149,7 @@ const Project = (() => {
     addProject,
     loadStoredProjects,
     projectsList,
-    addTodo,
+    sumbitTodo,
     getCurrentProjectID,
   };
 })();

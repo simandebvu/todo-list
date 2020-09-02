@@ -160,6 +160,8 @@ const Display = (() => {
 
     const btnEdit = document.createElement('button');
     btnEdit.classList.add('btn', 'btn-warning', 'mx-2', 'btn-edit');
+    btnEdit.setAttribute('data-toggle', 'modal');
+    btnEdit.setAttribute('data-target', 'todoModal');
     btnEdit.textContent = 'EDIT';
 
     const btnDel = document.createElement('button');
@@ -227,6 +229,7 @@ const Display = (() => {
     formTitle.setAttribute('type', 'text');
     formTitle.setAttribute('placeholder', 'Title');
     formTitle.setAttribute('name', 'title');
+    formTitle.setAttribute('id', 'formTitle');
     formTitle.setAttribute('minlength', '2');
     formTitle.setAttribute('maxlength', '15');
     formTitle.required = true;
@@ -263,6 +266,7 @@ const Display = (() => {
     formDescription.classList.add('form-control');
     formDescription.setAttribute('type', 'text');
     formDescription.setAttribute('name', 'description');
+    formDescription.setAttribute('id', 'formDescription');
     formDescription.setAttribute('placeholder', 'Description');
     formDescription.setAttribute('minlength', '2');
     formDescription.setAttribute('maxlength', '40');
@@ -297,6 +301,7 @@ const Display = (() => {
     btnWrapper.classList.add('col');
     const submitButton = document.createElement('button');
     submitButton.setAttribute('id', 'idAddTodo');
+    submitButton.setAttribute('data-mode', 'add');
     submitButton.classList.add('btn', 'btn-primary', 'form-control');
     submitButton.textContent = 'ADD';
     btnWrapper.appendChild(submitButton);
@@ -331,9 +336,28 @@ const Display = (() => {
   const closeTodoForm = () => {
     const addTodoBtn = document.querySelector('#toDoOpenButton');
     addTodoBtn.classList.add('collapsed');
+    addTodoBtn.textContent = 'Add Todo Item';
     addTodoBtn.setAttribute('aria-expanded', 'false');
     const collapseForm = document.querySelector('#collapseForm');
     collapseForm.classList.remove('show');
+  };
+
+  const showEditTodoForm = (todoObj) => {
+    const addTodoBtn = document.querySelector('#toDoOpenButton');
+
+    addTodoBtn.classList.remove('collapsed');
+    addTodoBtn.setAttribute('aria-expanded', 'true');
+    const collapseForm = document.querySelector('#collapseForm');
+    collapseForm.classList.add('show');
+
+    const titleElement = document.querySelector('#formTitle');
+    titleElement.setAttribute('value', todoObj.title);
+
+    const descriptionElement = document.querySelector('#formDescription');
+    descriptionElement.setAttribute('value', todoObj.description);
+
+    const dateElement = document.querySelector('#date');
+    dateElement.setAttribute('value', todoObj.date);
   };
 
   const initDisplay = () => {
@@ -346,7 +370,12 @@ const Display = (() => {
 
 
   return {
-    initDisplay, insertProject, insertProjectTodos, closeTodoForm, clearTodosTable,
+    initDisplay,
+    insertProject,
+    insertProjectTodos,
+    closeTodoForm,
+    clearTodosTable,
+    showEditTodoForm,
   };
 })();
 
