@@ -14,31 +14,14 @@ const Project = (() => {
         Display.showEditTodoForm(projectsList[currentProjectID].todos[idx]);
         const addTodoBtn = document.querySelector('#toDoOpenButton');
         const mainForm = document.querySelector('#formToDo');
-        const submitBtn = document.querySelector('#idAddTodo');
-        const titleElement = document.querySelector('#formTitle');
-        const descriptionElement = document.querySelector('#formDescription');
+
         addTodoBtn.onclick = () => {
-          addTodoBtn.textContent = 'Add Todo Item';
-          submitBtn.setAttribute('data-mode', 'add');
-          titleElement.textContent = null;
-          descriptionElement.textContent = null;
+          Display.initTodoButton();
         };
-        addTodoBtn.textContent = 'Editing Todo';
-        submitBtn.setAttribute('data-mode', 'edit');
         mainForm.onsubmit = (e) => {
-          const {
-            title, description, date, priority,
-          } = e.target.elements;
-          const curTodo = projectsList[currentProjectID].todos[idx];
-          curTodo.title = title.value;
-          curTodo.description = description.value;
-          curTodo.priority = priority.value;
-          curTodo.date = date.value;
+          Display.updateTodoItems = (e, projectsList, currentProjectID, idx);
           localStorage.setItem('projects', JSON.stringify(projectsList));
           Display.closeTodoForm();
-          return {
-            title, description, date, priority,
-          };
         };
         e.preventDefault();
       });
@@ -100,12 +83,10 @@ const Project = (() => {
 
   const initProjectListeners = () => {
     const projects = document.querySelectorAll('.project-link');
-    const projectTitle = document.querySelector('.projectTitle');
 
     projects.forEach((project) => {
       project.onclick = () => {
-        const projectName = project.textContent;
-        projectTitle.textContent = projectName;
+        Display.setProjectHeader(project);
         const projectTodos = projectsList[project.id];
         currentProjectID = project.id;
         Display.clearTodosTable();

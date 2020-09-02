@@ -352,6 +352,35 @@ const Display = (() => {
     dateElement.setAttribute('value', todoObj.date);
   };
 
+  const initTodoButton = () => {
+    const titleElement = document.querySelector('#formTitle');
+    const descriptionElement = document.querySelector('#formDescription');
+    const addTodoBtn = document.querySelector('#toDoOpenButton');
+    const submitBtn = document.querySelector('#idAddTodo');
+    addTodoBtn.textContent = 'Add Todo Item';
+    submitBtn.setAttribute('data-mode', 'add');
+    titleElement.textContent = null;
+    descriptionElement.textContent = null;
+    addTodoBtn.textContent = 'Editing Todo';
+    submitBtn.setAttribute('data-mode', 'edit');
+  };
+
+  const updateTodoItems = (e, projectsList, currentProjectID, idx) => {
+    const {
+      title, description, date, priority,
+    } = e.target.elements;
+    const curTodo = projectsList[currentProjectID].todos[idx];
+    curTodo.title = title.value;
+    curTodo.description = description.value;
+    curTodo.priority = priority.value;
+    curTodo.date = date.value;
+  };
+  const setProjectHeader = (project) => {
+    const projectName = project.textContent;
+    const projectTitle = document.querySelector('.projectTitle');
+    projectTitle.textContent = projectName;
+  };
+
   const initDisplay = () => {
     insertNavBar();
     insertSideBar();
@@ -369,6 +398,9 @@ const Display = (() => {
     clearTodosTable,
     showEditTodoForm,
     clearProjectsList,
+    initTodoButton,
+    updateTodoItems,
+    setProjectHeader,
   };
 })();
 
