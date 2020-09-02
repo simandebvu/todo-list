@@ -8,12 +8,6 @@ const Project = (() => {
     : [];
 
   const initButtonListeners = () => {
-    const btnsDone = document.querySelectorAll('.btn-done');
-    btnsDone.forEach((project) => {
-      project.onclick = () => {
-        console.log(`done ${Project.getCurrentProjectID()}`);
-      };
-    });
     const btnsEdit = document.querySelectorAll('.btn-edit');
     btnsEdit.forEach((project, idx) => {
       project.addEventListener('click', (e) => {
@@ -57,7 +51,7 @@ const Project = (() => {
         const projectTodos = projectsList[currentProjectID];
         Display.clearTodosTable();
         projectTodos.todos.forEach((todo, idx) => {
-          Display.insertProjectTodos(idx, todo.title, todo.description, todo.date, todo.priority, 'No');
+          Display.insertProjectTodos(idx, todo.title, todo.description, todo.date, todo.priority);
         });
       };
     });
@@ -69,7 +63,7 @@ const Project = (() => {
       title, date, description, priority,
     });
     const todoID = currentProject.todos.length > 0 ? currentProject.todos.length - 1 : 0;
-    Display.insertProjectTodos(todoID, title, description, date, priority, 'No');
+    Display.insertProjectTodos(todoID, title, description, date, priority);
     localStorage.setItem('projects', JSON.stringify(Project.projectsList));
     initButtonListeners();
   };
@@ -99,7 +93,7 @@ const Project = (() => {
     currentProjectID = demoProject.id;
     Display.clearTodosTable();
     projectTodos.todos.forEach((todo, idx) => {
-      Display.insertProjectTodos(idx, todo.title, todo.description, todo.date, todo.priority, 'No');
+      Display.insertProjectTodos(idx, todo.title, todo.description, todo.date, todo.priority);
     });
     initButtonListeners();
   };
@@ -116,7 +110,7 @@ const Project = (() => {
         currentProjectID = project.id;
         Display.clearTodosTable();
         projectTodos.todos.forEach((todo, idx) => {
-          Display.insertProjectTodos(idx, todo.title, todo.description, todo.date, todo.priority, 'No');
+          Display.insertProjectTodos(idx, todo.title, todo.description, todo.date, todo.priority);
           initButtonListeners();
         });
       };
