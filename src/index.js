@@ -23,15 +23,6 @@ formProject.onsubmit = (e) => {
 const form = document.querySelector('#formToDo');
 form.onsubmit = (e) => {
   e.preventDefault();
-  Display.closeTodoForm();
-  const {
-    title, description, date, priority,
-  } = e.target.elements;
-  Project.addTodo(
-    title.value,
-    description.value,
-    date.value,
-    priority.value,
-  );
+  Project.sumbitTodo(e);
   e.target.reset();
 };
