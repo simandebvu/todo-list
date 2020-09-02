@@ -43,7 +43,7 @@
   
 ## Live Demo
 
-[Live Demo Link](https://github.com/simandebvu/todo-list/)
+[Live Demo Link](https://simandebvu.github.io/todo-list/)
   
 ## Running Locally
 
