@@ -7,6 +7,17 @@ const Project = (() => {
     ? JSON.parse(localStorage.getItem('projects'))
     : [];
 
+  const updateTodoItems = (e, projectsList, currentProjectID, idx) => {
+    const {
+      title, description, date, priority,
+    } = e.target.elements;
+    const curTodo = projectsList[currentProjectID].todos[idx];
+    curTodo.title = title.value;
+    curTodo.description = description.value;
+    curTodo.priority = priority.value;
+    curTodo.date = date.value;
+  };
+
   const initButtonListeners = () => {
     const btnsEdit = document.querySelectorAll('.btn-edit');
     btnsEdit.forEach((project, idx) => {
@@ -19,7 +30,7 @@ const Project = (() => {
           Display.initTodoButton();
         };
         mainForm.onsubmit = (e) => {
-          Display.updateTodoItems = (e, projectsList, currentProjectID, idx);
+          updateTodoItems(e, projectsList, currentProjectID, idx);
           localStorage.setItem('projects', JSON.stringify(projectsList));
           Display.closeTodoForm();
         };
